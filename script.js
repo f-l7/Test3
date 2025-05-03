@@ -5,6 +5,17 @@ const paymentMethods = {
     "ابل باي": "technobox@applepay.com"
 };
 
+// تأكد من أن المستخدم مسجل الدخول عند زيارة admin.html
+function checkAdminAuth() {
+    if(window.location.pathname.includes('admin.html')) {
+        if(localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    }
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+window.addEventListener('load', checkAdminAuth);
 // عرض المنتجات
 function displayProducts() {
     const products = JSON.parse(localStorage.getItem('products')) || [];
