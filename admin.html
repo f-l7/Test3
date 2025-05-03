@@ -22,8 +22,9 @@
             <form id="productForm">
                 <input type="text" id="productName" placeholder="اسم المنتج" required>
                 <textarea id="productDesc" placeholder="وصف المنتج" required></textarea>
+                <input type="text" id="productImage" placeholder="رابط صورة المنتج">
                 <input type="number" id="productPrice" placeholder="السعر (ر.س)" required>
-                <input type="number" id="productQuantity" placeholder="الكمية" required>
+                <input type="number" id="productQuantity" placeholder="الكمية المتاحة" required>
                 <button type="submit" class="btn">إنشاء المنتج</button>
             </form>
         </section>
@@ -31,7 +32,7 @@
         <section class="products-list">
             <h2>المنتجات الحالية</h2>
             <div id="adminProductsList">
-                <!-- المنتجات ستظهر هنا عبر JavaScript -->
+                <!-- سيتم عرض المنتجات هنا -->
             </div>
         </section>
     </main>
@@ -39,12 +40,5 @@
         <p>© 2023 TechnoBox. جميع الحقوق محفوظة</p>
     </footer>
     <script src="admin.js"></script>
-    <script>
-        function logout() {
-            if(confirm('هل تريد تسجيل الخروج؟')) {
-                window.location.href = 'login.html';
-            }
-        }
-    </script>
 </body>
 </html>
