@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechnoBox - لوحة التحكم</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
+        <nav>
+            <a href="products.html" class="btn">عرض المتجر</a>
+            <a href="index.html" class="home-btn">الرئيسية</a>
+            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+        </nav>
         <h1>لوحة تحكم المسؤول</h1>
-        <a href="products.html" class="btn">عرض المتجر</a>
     </header>
     <main>
         <section class="add-product">
@@ -34,5 +39,12 @@
         <p>© 2023 TechnoBox. جميع الحقوق محفوظة</p>
     </footer>
     <script src="admin.js"></script>
+    <script>
+        function logout() {
+            if(confirm('هل تريد تسجيل الخروج؟')) {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
 </body>
 </html>
