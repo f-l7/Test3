@@ -3,55 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechnoBox - لوحة التحكم</title>
+    <title>لوحة التحكم</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <script>
-    // تحقق من صلاحية الدخول قبل عرض الصفحة
-    const loginTime = localStorage.getItem('loginTime');
-    const currentTime = new Date().getTime();
-    
-    // إذا لم يكن مسجلاً أو انتهت الجلسة (بعد 24 ساعة)
-    if(localStorage.getItem('isAdmin') !== 'true' || 
-       (currentTime - loginTime > 24 * 60 * 60 * 1000)) {
-        localStorage.removeItem('isAdmin');
-        localStorage.removeItem('loginTime');
-        window.location.href = 'login.html';
-    }
-</script>
+        // تحقق من التسجيل قبل عرض الصفحة
+        if(localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+
     <header>
-        <nav>
-            <a href="products.html" class="btn">عرض المتجر</a>
-            <a href="index.html" class="home-btn">الرئيسية</a>
-            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
-        </nav>
-        <h1>لوحة تحكم المسؤول</h1>
+        <h1>لوحة تحكم TechnoBox</h1>
+        <button onclick="logout()">تسجيل الخروج</button>
     </header>
+    
     <main>
-        <section class="add-product">
-            <h2>إنشاء منتج جديد</h2>
-            <form id="productForm">
-                <input type="text" id="productName" placeholder="اسم المنتج" required>
-                <textarea id="productDesc" placeholder="وصف المنتج" required></textarea>
-                <input type="text" id="productImage" placeholder="رابط صورة المنتج">
-                <input type="number" id="productPrice" placeholder="السعر (ر.س)" required>
-                <input type="number" id="productQuantity" placeholder="الكمية المتاحة" required>
-                <button type="submit" class="btn">إنشاء المنتج</button>
-            </form>
-        </section>
-        
-        <section class="products-list">
-            <h2>المنتجات الحالية</h2>
-            <div id="adminProductsList">
-                <!-- سيتم عرض المنتجات هنا -->
-            </div>
-        </section>
+        <!-- محتوى لوحة التحكم هنا -->
+        <h2>مرحباً بالمسؤول</h2>
+        <p>هذه لوحة التحكم الخاصة بالموقع</p>
     </main>
-    <footer>
-        <p>© 2023 TechnoBox. جميع الحقوق محفوظة</p>
-    </footer>
-    <script src="admin.js"></script>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>
