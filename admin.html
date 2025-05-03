@@ -3,33 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم</title>
+    <title>لوحة تحكم TechnoBox</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <script>
-        // تحقق من التسجيل قبل عرض الصفحة
-        if(localStorage.getItem('adminLoggedIn') !== 'true') {
-            window.location.href = 'login.html';
-        }
-    </script>
+    <div class="admin-container">
+        <header>
+            <h1>لوحة تحكم TechnoBox</h1>
+            <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
+        </header>
+        
+        <nav class="admin-menu">
+            <ul>
+                <li><a href="#" class="active">الرئيسية</a></li>
+                <li><a href="#">إدارة المنتجات</a></li>
+                <li><a href="#">الطلبات</a></li>
+                <li><a href="#">الإحصائيات</a></li>
+                <li><a href="#">الإعدادات</a></li>
+            </ul>
+        </nav>
+        
+        <main class="admin-content">
+            <section class="dashboard-section">
+                <h2>مرحباً بك في لوحة التحكم</h2>
+                <p>هذه هي لوحة التحكم الرئيسية لإدارة متجر TechnoBox</p>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>عدد المنتجات</h3>
+                        <p id="products-count">0</p>
+                    </div>
+                    <div class="card">
+                        <h3>الطلبات الجديدة</h3>
+                        <p id="orders-count">0</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
-    <header>
-        <h1>لوحة تحكم TechnoBox</h1>
-        <button onclick="logout()">تسجيل الخروج</button>
-    </header>
-    
-    <main>
-        <!-- محتوى لوحة التحكم هنا -->
-        <h2>مرحباً بالمسؤول</h2>
-        <p>هذه لوحة التحكم الخاصة بالموقع</p>
-    </main>
-
-    <script>
-        function logout() {
-            localStorage.removeItem('adminLoggedIn');
-            window.location.href = 'login.html';
-        }
-    </script>
+    <script src="admin.js"></script>
 </body>
 </html>
