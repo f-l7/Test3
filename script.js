@@ -33,7 +33,7 @@ function orderProduct(index) {
     const products = JSON.parse(localStorage.getItem('products')) || [];
     const product = products[index];
     
-    if (product.quantity <= 0) {
+    if (product.outOfStock || product.quantity <= 0) {
         alert('هذا المنتج غير متوفر حالياً');
         return;
     }
@@ -44,6 +44,9 @@ function orderProduct(index) {
         
         // تخفيض الكمية
         product.quantity -= 1;
+        if (product.quantity <= 0) {
+            product.outOfStock = true;
+        }
         localStorage.setItem('products', JSON.stringify(products));
         
         // إعادة تحميل الصفحة
