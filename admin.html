@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoBox - لوحة التحكم</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>لوحة تحكم المسؤول</h1>
+        <a href="products.html" class="btn">عرض المتجر</a>
+    </header>
+    <main>
+        <section class="add-product">
+            <h2>إنشاء منتج جديد</h2>
+            <form id="productForm">
+                <input type="text" id="productName" placeholder="اسم المنتج" required>
+                <textarea id="productDesc" placeholder="وصف المنتج" required></textarea>
+                <input type="number" id="productPrice" placeholder="السعر (ر.س)" required>
+                <input type="number" id="productQuantity" placeholder="الكمية" required>
+                <button type="submit" class="btn">إنشاء المنتج</button>
+            </form>
+        </section>
+        
+        <section class="products-list">
+            <h2>المنتجات الحالية</h2>
+            <div id="adminProductsList">
+                <!-- المنتجات ستظهر هنا عبر JavaScript -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2023 TechnoBox. جميع الحقوق محفوظة</p>
+    </footer>
+    <script src="admin.js"></script>
+</body>
+</html>
