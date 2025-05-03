@@ -1,96 +1,112 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // التحقق من تسجيل الدخول
-    if(!localStorage.getItem('loggedIn')) {
-        window.location.href = 'login.html';
-        return;
-    }
+// بيانات الدخول (يمكنك تعديلها)
+const adminCredentials = {
+    username: "admin",
+    password: "admin123"
+};
 
-    const productForm = document.getElementById('productForm');
+// التحقق من تسجيل الدخول
+if (!localStorage.getItem('isAdminLoggedIn')) {
+    window.location.href = 'login.html';
+}
+
+// عرض المنتجات في لوحة التحكم
+function displayAdminProducts() {
+    const products = JSON.parse(localStorage.getItem('products')) || [];
     const adminProductsList = document.getElementById('adminProductsList');
     
-    // جلب المنتجات من localStorage
-    let products = JSON.parse(localStorage.getItem('products')) || [];
+    adminProductsList.innerHTML = '';
     
-    // عرض المنتجات في لوحة التحكم
-    function displayAdminProducts() {
-        adminProductsList.innerHTML = '';
-        
-        products.forEach((product, index) => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
-            productCard.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <p class="price">السعر: ${product.price} ر.س</p>
-                <p class="quantity">الكمية المتاحة: ${product.quantity}</p>
-                <div class="controls">
-                    <button onclick="deleteProduct(${index})" class="btn delete-btn">حذف المنتج</button>
-                    <button onclick="editProduct(${index})" class="btn edit-btn">تعديل المنتج</button>
-                    <button onclick="toggleOutOfStock(${index})" class="btn stock-btn">
-                        ${product.outOfStock ? 'إعادة التوفير' : 'نفاد الكمية'}
-                    </button>
-                </div>
-            `;
-            adminProductsList.appendChild(productCard);
-        });
-    }
-    
-    // إضافة منتج جديد
-    productForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const newProduct = {
-            name: document.getElementById('productName').value,
-            description: document.getElementById('productDesc').value,
-            price: document.getElementById('productPrice').value,
-            quantity: document.getElementById('productQuantity').value,
-            outOfStock: false
-        };
-        
-        products.push(newProduct);
-        localStorage.setItem('products', JSON.stringify(products));
-        
-        productForm.reset();
-        displayAdminProducts();
-        alert('تم إضافة المنتج بنجاح');
+    products.forEach((product, index) => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p class="price">السعر: ${product.price} ر.س</p>
+            <p class="${product.outOfStock ? 'out-of-stock' : 'quantity'}">
+                ${product.outOfStock ? 'نفذت الكمية' : `الكمية المتاحة: ${product.quantity}`}
+            </p>
+            <div class="controls">
+                <button onclick="deleteProduct(${index})" class="delete-btn">حذف المنتج</button>
+                <button onclick="editProduct(${index})" class="edit-btn">تعديل المنتج</button>
+                <button onclick="toggleStock(${index})" class="stock-btn">
+                    ${product.outOfStock ? 'إعادة التوفير' : 'نفاد الكمية'}
+                </button>
+            </div>
+        `;
+        adminProductsList.appendChild(productCard);
     });
+}
+
+// إضافة منتج جديد
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     
+    const newProduct = {
+        name: document.getElementById('productName').value,
+        description: document.getElementById('productDesc').value,
+        image: document.getElementById('productImage').value,
+        price: document.getElementById('productPrice').value,
+        quantity: document.getElementById('productQuantity').value,
+        outOfStock: false
+    };
+    
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+    products.push(newProduct);
+    localStorage.setItem('products', JSON.stringify(products));
+    
+    this.reset();
     displayAdminProducts();
+    alert('تم إضافة المنتج بنجاح');
 });
 
-// دالة حذف المنتج
+// حذف المنتج
 function deleteProduct(index) {
     if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-        let products = JSON.parse(localStorage.getItem('products')) || [];
+        const products = JSON.parse(localStorage.getItem('products')) || [];
         products.splice(index, 1);
         localStorage.setItem('products', JSON.stringify(products));
-        window.location.reload();
+        displayAdminProducts();
     }
 }
 
-// دالة تعديل المنتج
+// تعديل المنتج
 function editProduct(index) {
-    let products = JSON.parse(localStorage.getItem('products')) || [];
+    const products = JSON.parse(localStorage.getItem('products')) || [];
     const product = products[index];
     
-    const newName = prompt('اسم المنتج الجديد:', product.name);
-    const newDesc = prompt('وصف المنتج الجديد:', product.description);
-    const newPrice = prompt('السعر الجديد:', product.price);
-    const newQuantity = prompt('الكمية الجديدة:', product.quantity);
+    const newName = prompt('اسم المنتج:', product.name);
+    const newDesc = prompt('وصف المنتج:', product.description);
+    const newImage = prompt('رابط صورة المنتج:', product.image);
+    const newPrice = prompt('السعر:', product.price);
+    const newQuantity = prompt('الكمية:', product.quantity);
     
     if (newName) product.name = newName;
     if (newDesc) product.description = newDesc;
+    if (newImage) product.image = newImage;
     if (newPrice) product.price = newPrice;
     if (newQuantity) product.quantity = newQuantity;
     
     localStorage.setItem('products', JSON.stringify(products));
-    window.location.reload();
+    displayAdminProducts();
 }
 
-// دالة تبديل حالة نفاد الكمية
-function toggleOutOfStock(index) {
-    let products = JSON.parse(localStorage.getItem('products')) || [];
+// تبديل حالة التوفر
+function toggleStock(index) {
+    const products = JSON.parse(localStorage.getItem('products')) || [];
     products[index].outOfStock = !products[index].outOfStock;
     localStorage.setItem('products', JSON.stringify(products));
-    window.location.reload();
+    displayAdminProducts();
 }
+
+// تسجيل الخروج
+function logout() {
+    localStorage.removeItem('isAdminLoggedIn');
+    window.location.href = 'login.html';
+}
+
+// تهيئة الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    displayAdminProducts();
+});
