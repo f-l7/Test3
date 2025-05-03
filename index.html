@@ -6,182 +6,21 @@
     <title>TechnoBox - الرئيسية</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* أنماط تسجيل الدخول */
-        .login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .login-form {
-            background-color: #172a45;
-            padding: 30px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        
-        .login-form h2 {
-            color: #64ffda;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .login-form input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #8892b0;
-            border-radius: 4px;
-            background-color: #0a192f;
-            color: white;
-        }
-        
-        .login-form button {
-            width: 100%;
-            padding: 12px;
-            background-color: #64ffda;
-            color: #0a192f;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .login-form .close-btn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .error-message {
-            color: #ff5555;
-            text-align: center;
-            margin-top: 10px;
-            display: none;
-        }
-    </style>
 </head>
 <body>
-    <!-- شريط التنقل -->
     <header>
         <nav>
-            <div class="logo">TechnoBox</div>
-            <div class="nav-links">
-                <a href="#" class="active">الرئيسية</a>
-                <a href="products.html">المنتجات</a>
-                <button id="loginBtn" class="login-button">تسجيل الدخول</button>
-            </div>
+            <a href="login.html" class="login-btn">تسجيل دخول المسؤول</a>
         </nav>
-    </header>
-
-    <!-- محتوى الصفحة الرئيسية -->
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>مرحباً بكم في TechnoBox</h1>
-                <p>متجرنا يقدم أفضل المنتجات التقنية بجودة عالية وأسعار تنافسية</p>
-                <a href="products.html" class="btn">تصفح المنتجات</a>
-            </div>
-        </section>
-
-        <section class="features">
-            <h2>لماذا تختار TechnoBox؟</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>جودة عالية</h3>
-                    <p>منتجاتنا تخضع لأعلى معايير الجودة والفحص</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>أسعار تنافسية</h3>
-                    <p>أفضل الأسعار في السوق مع ضمان الجودة</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>دعم فني</h3>
-                    <p>فريق دعم فني متاح على مدار الساعة</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- نافذة تسجيل الدخول -->
-    <div id="loginModal" class="login-modal">
-        <div class="login-form">
-            <span class="close-btn" id="closeLogin">&times;</span>
-            <h2>تسجيل الدخول</h2>
-            <form id="loginForm">
-                <input type="text" id="username" placeholder="اسم المستخدم" required>
-                <input type="password" id="password" placeholder="كلمة المرور" required>
-                <button type="submit">دخول</button>
-                <p id="loginError" class="error-message">بيانات الدخول غير صحيحة!</p>
-            </form>
+        <div class="header-content">
+            <h1>مرحباً بكم في TechnoBox</h1>
+            <p>متجر TechnoBox هو وجهتك الأولى للحصول على أحدث المنتجات التقنية بأفضل الأسعار. نقدم لكم تشكيلة مميزة من الأجهزة الإلكترونية والاكسسوارات التي تلبي جميع احتياجاتكم التكنولوجية.</p>
+            <p>نسعى دائماً لتقديم أفضل جودة وخدمة عملاء مميزة لتجربة تسوق لا تُنسى.</p>
+            <a href="products.html" class="btn">تصفح المنتجات</a>
         </div>
-    </div>
-
-    <!-- السكريبتات -->
-    <script>
-        // عناصر DOM
-        const loginBtn = document.getElementById('loginBtn');
-        const loginModal = document.getElementById('loginModal');
-        const closeLogin = document.getElementById('closeLogin');
-        const loginForm = document.getElementById('loginForm');
-        const loginError = document.getElementById('loginError');
-        
-        // فتح نافذة تسجيل الدخول
-        loginBtn.addEventListener('click', function() {
-            // إذا كان المستخدم مسجل دخول بالفعل
-            if(localStorage.getItem('isLoggedIn') === 'true') {
-                window.location.href = 'admin.html';
-            } else {
-                loginModal.style.display = 'flex';
-            }
-        });
-        
-        // إغلاق نافذة تسجيل الدخول
-        closeLogin.addEventListener('click', function() {
-            loginModal.style.display = 'none';
-            loginError.style.display = 'none';
-        });
-        
-        // معالجة تسجيل الدخول
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // بيانات الدخول (يمكن استبدالها بقاعدة بيانات)
-            if(username === 'admin' && password === 'admin123') {
-                localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = 'admin.html';
-            } else {
-                loginError.style.display = 'block';
-            }
-        });
-        
-        // تحديث زر تسجيل الدخول عند التحميل
-        window.addEventListener('load', function() {
-            if(localStorage.getItem('isLoggedIn') === 'true') {
-                loginBtn.textContent = 'لوحة التحكم';
-            } else {
-                loginBtn.textContent = 'تسجيل الدخول';
-            }
-        });
-    </script>
+    </header>
+    <footer>
+        <p>© 2023 TechnoBox. جميع الحقوق محفوظة</p>
+    </footer>
 </body>
 </html>
