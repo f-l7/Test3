@@ -8,6 +8,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <script>
+    // تحقق من صلاحية الدخول قبل عرض الصفحة
+    const loginTime = localStorage.getItem('loginTime');
+    const currentTime = new Date().getTime();
+    
+    // إذا لم يكن مسجلاً أو انتهت الجلسة (بعد 24 ساعة)
+    if(localStorage.getItem('isAdmin') !== 'true' || 
+       (currentTime - loginTime > 24 * 60 * 60 * 1000)) {
+        localStorage.removeItem('isAdmin');
+        localStorage.removeItem('loginTime');
+        window.location.href = 'login.html';
+    }
+</script>
     <header>
         <nav>
             <a href="products.html" class="btn">عرض المتجر</a>
