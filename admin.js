@@ -5,7 +5,15 @@ const adminCredentials = {
 };
 
 // التحقق من تسجيل الدخول
-if (!localStorage.getItem('isAdminLoggedIn')) {
+// تأكد من وجود هذا الكود في بداية الملف
+if(localStorage.getItem('isAdmin') !== 'true') {
+    window.location.href = 'login.html';
+}
+
+// دالة تسجيل الخروج
+function logout() {
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('loginTime');
     window.location.href = 'login.html';
 }
 
