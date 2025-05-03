@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // التحقق من تسجيل الدخول
+    if(!localStorage.getItem('loggedIn')) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     const productForm = document.getElementById('productForm');
     const adminProductsList = document.getElementById('adminProductsList');
     
