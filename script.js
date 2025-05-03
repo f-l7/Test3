@@ -1,57 +1,61 @@
-document.addEventListener('DOMContentLoaded', function() {
+// بيانات الدفع (يمكنك تعديلها)
+const paymentMethods = {
+    "راجحي": "SA0380000000608010167879",
+    "بايبال": "https://paypal.me/technobox",
+    "ابل باي": "technobox@applepay.com"
+};
+
+// عرض المنتجات
+function displayProducts() {
+    const products = JSON.parse(localStorage.getItem('products')) || [];
     const productsList = document.getElementById('productsList');
     
-    // جلب المنتجات من localStorage
-    const products = JSON.parse(localStorage.getItem('products')) || [];
+    productsList.innerHTML = '';
     
-    // عرض المنتجات
-    function displayProducts() {
-        productsList.innerHTML = '';
-        
-        products.forEach((product, index) => {
-            if (product.quantity > 0) {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p class="price">السعر: ${product.price} ر.س</p>
-                    <p class="quantity">الكمية المتاحة: ${product.quantity}</p>
-                    ${product.outOfStock ? '<p class="out-of-stock">نفاد الكمية</p>' : ''}
-                    <button onclick="orderProduct(${index})" class="btn">طلب المنتج</button>
-                `;
-                productsList.appendChild(productCard);
-            }
-        });
-    }
-    
-    displayProducts();
-});
+    products.forEach((product, index) => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            ${product.image ? `<img src="${product.image}" alt="${product.name}">` : ''}
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p class="price">السعر: ${product.price} ر.س</p>
+            <p class="${product.outOfStock ? 'out-of-stock' : 'quantity'}">
+                ${product.outOfStock ? 'نفذت الكمية' : `الكمية المتاحة: ${product.quantity}`}
+            </p>
+            <button onclick="orderProduct(${index})" class="order-btn" ${product.outOfStock ? 'disabled' : ''}>
+                ${product.outOfStock ? 'نفذت الكمية' : 'الطلب الآن'}
+            </button>
+        `;
+        productsList.appendChild(productCard);
+    });
+}
 
-// دالة طلب المنتج
+// طلب المنتج
 function orderProduct(index) {
     const products = JSON.parse(localStorage.getItem('products')) || [];
     const product = products[index];
     
-    if (product.outOfStock || product.quantity <= 0) {
-        alert('هذا المنتج غير متوفر حالياً');
-        return;
-    }
+    const paymentMethod = prompt(`اختر طريقة الدفع:\n${Object.keys(paymentMethods).join('\n')}`);
     
-    const paymentMethod = prompt('اختر طريقة الدفع: راجحي، بايبال، ابل باي');
-    if (paymentMethod && ['راجحي', 'بايبال', 'ابل باي'].includes(paymentMethod)) {
-        alert(`تم طلب المنتج بنجاح\nيرجى تصوير هذه الرسالة وفتح تذكرة في سيرفر الدعم الفني\n\nاسم المنتج: ${product.name}\nطريقة الدفع: ${paymentMethod}`);
+    if (paymentMethod && paymentMethods[paymentMethod]) {
+        alert(`تم طلب المنتج بنجاح!\n\nاسم المنتج: ${product.name}\nالسعر: ${product.price} ر.س\nطريقة الدفع: ${paymentMethod}\n\n${paymentMethod === 'راجحي' ? 'رقم الحساب: ' + paymentMethods[paymentMethod] : 'الرابط: ' + paymentMethods[paymentMethod]}\n\nيرجى تصوير هذه الرسالة وإرسالها للدعم الفني`);
         
-        // تخفيض الكمية
-        product.quantity -= 1;
-        if (product.quantity <= 0) {
-            product.outOfStock = true;
+        // تحديث الكمية
+        if (!product.outOfStock) {
+            product.quantity -= 1;
+            if (product.quantity <= 0) {
+                product.outOfStock = true;
+            }
+            localStorage.setItem('products', JSON.stringify(products));
+            displayProducts();
         }
-        localStorage.setItem('products', JSON.stringify(products));
-        
-        // إعادة تحميل الصفحة
-        window.location.reload();
     } else {
         alert('طريقة الدفع غير صالحة');
     }
 }
+
+// تهيئة الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+});
