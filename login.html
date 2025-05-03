@@ -8,34 +8,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="home-btn">الرئيسية</a>
-        </nav>
-        <h1>تسجيل الدخول إلى لوحة التحكم</h1>
-    </header>
-    <main>
-        <form class="login-form" id="loginForm">
+    <div class="login-container">
+        <h1>تسجيل دخول المسؤول</h1>
+        <form id="loginForm">
             <input type="text" id="username" placeholder="اسم المستخدم" required>
             <input type="password" id="password" placeholder="كلمة المرور" required>
             <button type="submit" class="btn">تسجيل الدخول</button>
-            <p class="login-message" id="loginMessage"></p>
+            <p id="errorMsg" style="color:red; display:none;">بيانات الدخول غير صحيحة!</p>
         </form>
-    </main>
-    <footer>
-        <p>© 2023 TechnoBox. جميع الحقوق محفوظة</p>
-    </footer>
+    </div>
+
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // بيانات الدخول الثابتة (للأغراض التوضيحية فقط)
-            if(username === 'admin' && password === 'admin123') {
+            if (username === "admin" && password === "admin123") {
+                localStorage.setItem('isAdminLoggedIn', 'true');
                 window.location.href = 'admin.html';
             } else {
-                document.getElementById('loginMessage').textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+                document.getElementById('errorMsg').style.display = 'block';
+                document.getElementById('password').value = '';
             }
         });
     </script>
