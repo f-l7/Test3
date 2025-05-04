@@ -1,21 +1,69 @@
-// بيانات الدخول القابلة للتعديل
-const adminCredentials = {
-    username: "admin", // يمكنك تغيير اسم المستخدم هنا
-    password: "admin123" // يمكنك تغيير كلمة المرور هنا
+// بيانات الدخول (يمكن تعديلها)
+let adminCredentials = {
+    username: "admin",
+    password: "admin123"
 };
 
-// التحقق من تسجيل الدخول عند تحميل الصفحة
+// تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    if (localStorage.getItem('adminLoggedIn') !== 'true') {
+    // التحقق من تسجيل الدخول
+    if(localStorage.getItem('adminLoggedIn') !== 'true') {
         window.location.href = 'login.html';
     }
 
-    // عرض اسم المستخدم في لوحة التحكم (اختياري)
-    const usernameDisplay = document.getElementById('adminUsername');
-    if (usernameDisplay) {
-        usernameDisplay.textContent = adminCredentials.username;
-    }
+    // إعداد القائمة الجانبية
+    setupMenu();
+    
+    // إعداد نموذج تغيير البيانات
+    setupCredentialsForm();
 });
+
+// إعداد القائمة الجانبية
+function setupMenu() {
+    const menuLinks = document.querySelectorAll('.admin-menu a');
+    const contentSections = document.querySelectorAll('.content-section');
+    
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // إزالة التنشيط من جميع الروابط
+            menuLinks.forEach(l => l.classList.remove('active'));
+            // إضافة التنشيط للرابط الحالي
+            this.classList.add('active');
+            
+            // إخفاء جميع المحتويات
+            contentSections.forEach(section => section.classList.remove('active'));
+            // إظهار المحتوى المطلوب
+            const target = this.getAttribute('data-target');
+            document.getElementById(target).classList.add('active');
+        });
+    });
+}
+
+// إعداد نموذج تغيير بيانات الدخول
+function setupCredentialsForm() {
+    const form = document.getElementById('credentialsForm');
+    if(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            
+            if(newUsername && newPassword) {
+                adminCredentials.username = newUsername;
+                adminCredentials.password = newPassword;
+                alert('تم تحديث بيانات الدخول بنجاح');
+                
+                // يمكنك هنا إضافة حفظ البيانات في localStorage إذا أردت
+                // localStorage.setItem('adminCredentials', JSON.stringify(adminCredentials));
+            } else {
+                alert('الرجاء إدخال جميع البيانات');
+            }
+        });
+    }
+}
 
 // دالة تسجيل الخروج
 function logout() {
@@ -23,26 +71,14 @@ function logout() {
     window.location.href = 'login.html';
 }
 
-// دالة لتغيير بيانات الدخول (يمكن استدعاؤها من واجهة الإعدادات)
-function updateAdminCredentials(newUsername, newPassword) {
-    if (newUsername && newPassword) {
-        adminCredentials.username = newUsername;
-        adminCredentials.password = newPassword;
-        return true;
-    }
-    return false;
-}
-
-// دالة التحقق من صحة الدخول (تستخدم في login.html)
-function validateLogin(username, password) {
-    return username === adminCredentials.username && password === adminCredentials.password;
-}
-
 // تصدير الدوال للاستخدام في ملفات أخرى
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         adminCredentials,
-        validateLogin,
-        updateAdminCredentials
+        validateLogin: function(username, password) {
+            return username === adminCredentials.username && 
+                   password === adminCredentials.password;
+        },
+        logout
     };
 }
