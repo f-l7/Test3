@@ -5,43 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم TechnoBox</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="admin-container">
-        <header>
-            <h1>لوحة تحكم TechnoBox</h1>
+    <script>
+        // التحقق من تسجيل الدخول
+        if(localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div class="admin-dashboard">
+        <aside class="sidebar">
+            <div class="logo">لوحة تحكم<br>TechnoBox</div>
+            <nav class="admin-menu">
+                <ul>
+                    <li><a href="#" class="active">الرئيسية</a></li>
+                    <li><a href="#">إدارة المنتجات</a></li>
+                    <li><a href="#">الطلبات</a></li>
+                    <li><a href="#">الإحصائيات</a></li>
+                    <li><a href="#">الإعدادات</a></li>
+                </ul>
+            </nav>
             <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
-        </header>
-        
-        <nav class="admin-menu">
-            <ul>
-                <li><a href="#" class="active">الرئيسية</a></li>
-                <li><a href="#">إدارة المنتجات</a></li>
-                <li><a href="#">الطلبات</a></li>
-                <li><a href="#">الإحصائيات</a></li>
-                <li><a href="#">الإعدادات</a></li>
-            </ul>
-        </nav>
-        
-        <main class="admin-content">
-            <section class="dashboard-section">
-                <h2>مرحباً بك في لوحة التحكم</h2>
+        </aside>
+
+        <main class="main-content">
+            <div class="welcome-section">
+                <h1>مرحباً بك في لوحة التحكم</h1>
                 <p>هذه هي لوحة التحكم الرئيسية لإدارة متجر TechnoBox</p>
-                
-                <div class="dashboard-cards">
-                    <div class="card">
-                        <h3>عدد المنتجات</h3>
-                        <p id="products-count">0</p>
-                    </div>
-                    <div class="card">
-                        <h3>الطلبات الجديدة</h3>
-                        <p id="orders-count">0</p>
-                    </div>
-                </div>
-            </section>
+            </div>
         </main>
     </div>
 
-    <script src="admin.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>
