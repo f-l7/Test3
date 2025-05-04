@@ -5,44 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم TechnoBox</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <script>
-        // التحقق من تسجيل الدخول
-        if(localStorage.getItem('adminLoggedIn') !== 'true') {
-            window.location.href = 'login.html';
-        }
-    </script>
-
-    <div class="admin-dashboard">
+    <div class="admin-container">
         <aside class="sidebar">
-            <div class="logo">لوحة تحكم<br>TechnoBox</div>
+            <div class="logo">
+                <h2>لوحة تحكم TechnoBox</h2>
+                <p>إدارة المتجر الإلكتروني</p>
+            </div>
             <nav class="admin-menu">
                 <ul>
-                    <li><a href="#" class="active">الرئيسية</a></li>
-                    <li><a href="#">إدارة المنتجات</a></li>
-                    <li><a href="#">الطلبات</a></li>
-                    <li><a href="#">الإحصائيات</a></li>
-                    <li><a href="#">الإعدادات</a></li>
+                    <li><a href="#" data-target="dashboard" class="active">الرئيسية</a></li>
+                    <li><a href="#" data-target="products">إدارة المنتجات</a></li>
+                    <li><a href="#" data-target="orders">الطلبات</a></li>
+                    <li><a href="#" data-target="stats">الإحصائيات</a></li>
+                    <li><a href="#" data-target="settings">الإعدادات</a></li>
                 </ul>
             </nav>
             <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
         </aside>
 
         <main class="main-content">
-            <div class="welcome-section">
+            <div id="dashboard" class="content-section active">
                 <h1>مرحباً بك في لوحة التحكم</h1>
                 <p>هذه هي لوحة التحكم الرئيسية لإدارة متجر TechnoBox</p>
+            </div>
+
+            <div id="products" class="content-section">
+                <h1>إدارة المنتجات</h1>
+                <div class="product-management">
+                    <!-- محتوى إدارة المنتجات -->
+                </div>
+            </div>
+
+            <div id="orders" class="content-section">
+                <h1>الطلبات</h1>
+                <div class="orders-management">
+                    <!-- محتوى الطلبات -->
+                </div>
+            </div>
+
+            <div id="stats" class="content-section">
+                <h1>الإحصائيات</h1>
+                <div class="stats-container">
+                    <!-- محتوى الإحصائيات -->
+                </div>
+            </div>
+
+            <div id="settings" class="content-section">
+                <h1>الإعدادات</h1>
+                <div class="settings-form">
+                    <h3>تغيير بيانات الدخول</h3>
+                    <form id="credentialsForm">
+                        <div class="input-group">
+                            <label for="newUsername">اسم المستخدم الجديد:</label>
+                            <input type="text" id="newUsername" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newPassword">كلمة المرور الجديدة:</label>
+                            <input type="password" id="newPassword" required>
+                        </div>
+                        <button type="submit" class="save-btn">حفظ التغييرات</button>
+                    </form>
+                </div>
             </div>
         </main>
     </div>
 
-    <script>
-        function logout() {
-            localStorage.removeItem('adminLoggedIn');
-            window.location.href = 'login.html';
-        }
-    </script>
+    <script src="admin.js"></script>
 </body>
 </html>
