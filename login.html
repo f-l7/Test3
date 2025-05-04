@@ -3,34 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | TechnoBox</title>
+    <title>تسجيل دخول المسؤول | TechnoBox</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
         <div class="login-box">
-            <div class="logo">
-                <img src="logo.png" alt="TechnoBox Logo">
-                <h2>تسجيل دخول المسؤول</h2>
-            </div>
-            
+            <h1>تسجيل دخول المسؤول</h1>
             <form id="loginForm">
                 <div class="input-group">
                     <label for="username">اسم المستخدم:</label>
-                    <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                    <input type="text" id="username" required>
                 </div>
                 
                 <div class="input-group">
                     <label for="password">كلمة المرور:</label>
-                    <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                    <input type="password" id="password" required>
                 </div>
                 
-                <button type="submit" class="login-btn">
-                    <span>دخول</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/>
-                    </svg>
-                </button>
+                <button type="submit" class="login-btn">دخول</button>
                 
                 <p id="errorMsg" class="error-message">بيانات الدخول غير صحيحة!</p>
             </form>
@@ -44,7 +36,11 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            if(username === "admin" && password === "admin123") {
+            // بيانات الدخول (يمكنك تغييرها)
+            const validUsername = "admin";
+            const validPassword = "admin123";
+            
+            if(username === validUsername && password === validPassword) {
                 localStorage.setItem('adminLoggedIn', 'true');
                 window.location.href = 'admin.html';
             } else {
